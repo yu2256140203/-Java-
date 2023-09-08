@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 //面向对象的程序设计
 //3.1 类的封装(encapsulation)
 class Time {
@@ -312,7 +314,169 @@ class PrivateTest1 extends ClassClass1{
 //上例可以看出，protected成员可以“显式”的继承。而private成员只能被“隐式”继承。
 //super(i);可以继承父类的构造函数，实现构造方法
 
+class Employee2 {
+    protected String name;
+    protected double salary;
+    protected Date birthDate;
+    public String getDetails() {
+        return "Name:"+ name +"\n "+"Salary: " + salary;
+    }
+}
+class Manager2 extends Employee2 {
+    protected String department;
+    public String getDetails() {
+        return "Name:"+ name +"\n "+"Salary: " + salary + "\n"
+                +"Manager of:"+ department;
+    }
+}
+//讲人话：儿子不仅可以继承爹，还能创造一个和爹的函数一样名字的函数，优先级比继承到的函数优先级要高
 
+class Equals
+{
+    public static void main(String[] args)
+    {
+        Integer n1=new Integer(100);
+        Integer n2=new Integer(100);
+        System.out.println(n1==n2);
+        System.out.println(n1.equals(n2));
+    }
+}
+//通常”==“比较类的时候，都是比较类的地址，即使两个类的value都相同，但他们地址不同，所以双等于号无效
+//是不是很眼熟，关于死去的cpp指针知识又突然攻击我这件事
+
+
+class Integer2{
+    private int i;
+    public Integer2(int i){
+        this.i=i;
+    }
+}
+class Equals2
+{
+    public static void main(String[] args)
+    {
+        Integer2 n1=new Integer2(100);
+        Integer2 n2=new Integer2(100);
+        System.out.println(n1==n2);
+        System.out.println(n1.equals(n2));
+    }
+}
+//equals（）方法的默认行为是比较对象的句柄.
+// 如果是自定义的类,需要override equals()方法.
+
+
+class ToStringClass{
+    int i;
+    public String toString(){
+        return "i="+i;
+    }
+}
+class ToStringTest{
+    public static void main(String[] args) {
+        ToStringClass tsc=new ToStringClass();
+        tsc.i=100;
+        System.out.println(tsc.i);
+        System.out.println(tsc.toString());
+        System.out.println(tsc);
+    }
+}
+//100
+//i=100
+//i=100
+//可以多搞一些类的成员变量，这样理解的更清楚
+class ToStringClass1{
+    int i;
+    String s;
+    ArrayList<Integer> al=new ArrayList<Integer>();
+//    public String toString(){
+//        return "i="+i+" s="+s+" al="+al;
+//    }
+}
+class ToStringTest1{
+    public static void main(String[] args) {
+        ToStringClass1 tsc=new ToStringClass1();
+        tsc.i=100;
+        tsc.s="hello";
+        tsc.al.add(100);
+        tsc.al.add(200);
+        System.out.println(tsc.i);
+        System.out.println(tsc.s);
+        System.out.println(tsc.al);
+        System.out.println(tsc);
+    }
+}
+//100
+//hello
+//[100, 200]
+//ToStringClass1@1b6d3586
+//可以看出，如果没有重写toString()方法，那么输出的是类的地址
+
+class FinalClassTest
+{
+    private final static int a = 0;
+    private final int b=0;//必须给初始值，不然报错，不知道为啥老师那PPT没有给初始值
+    private final int c=0;
+}
+//FinalTest.java
+class FinalTest{
+    static class Integer1 {
+        public static int i=10;
+        public final static int j=20;
+    }
+    private final static Integer1 a = new Integer1();
+    public static void main(String[] args){
+        a.i = 100;
+        a.i = 200;
+//        a.j = 300;
+//        a.j = 400;
+        System.out.println(a.i);
+    }
+}
+//100
+//final修饰的变量，只能被赋值一次，但是可以被修改
+//final修饰的类，不能被继承
+//final修饰的方法，不能被重写
+//final修饰的变量，必须在定义时或者构造函数中初始化
+//你会发现a.i还是可以被无限赋值，但是a.j只能被赋值一次，这是因为final修饰的变量，只能被赋值一次，但是可以被修改
+//这和a是不是final没有关系
+
+class Season{
+    public static final int SPRING=0;
+    public static final int SUMMER=1;
+    public static final int AUTUMN=2;
+    public static final int WINTER=3;
+    private int season;
+    public Season(int season){
+        if(season<0||season>3){
+            throw new IllegalArgumentException("season should be 0-3");
+        }
+        this.season=season;
+    }
+}
+
+
+
+class TestSeason {
+    public static void main(String[] args) {
+        Season spring=new Season(Season.SPRING);
+        Season wrong=new Season(100);
+    }
+}
+//上面是int enum is not type-safe
+//Exception in thread "main" java.lang.IllegalArgumentException: season should be 0-3
+
+
+class Season2 {
+    private final String name;
+    private Season2(String name) {
+        this.name = name;
+    }
+    public static final Season2 SPRING = new Season2("spring");
+    public static final Season2 SUMMER = new Season2("summer");
+    public static final Season2 AUTUMN = new Season2("autumn");
+    public static final Season2 WINTER = new Season2("winter");
+}
+//上面是String enum is type-safe
 
 
 
@@ -320,6 +484,10 @@ class PrivateTest1 extends ClassClass1{
 
 
 //3.3 类的多态(polymorphism)
+
+
+
+
 //3.4 抽象类，内部类，接口
 //3.5 例外处理(exception)
 //3.6 面向对象的综合应用：克隆
