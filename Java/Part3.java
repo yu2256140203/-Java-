@@ -481,10 +481,175 @@ class Season2 {
 
 
 
-
-
 //3.3 类的多态(polymorphism)
 
+//一个类可以继承另一个类的特征和行为，从而拥有更多的功能和灵活性。
+// 例如，Manager类是Employee类的子类，它可以使用Employee类中定义的方法，
+// 比如计算工资、打卡等。但是，Manager类也有自己的方法，比如分配任务、评估绩效等。
+// 这样，Manager类就具有了多种形式，既是一个员工，又是一个管理者。
+// • 一个对象只有一种形式，就是它所属的类。例如，一个Manager对象就是一个Manager类的实例，
+// 它不能变成其他类的对象。
+// • 一个引用变量可以指向不同形式的对象，只要它们之间有继承关系。
+// 例如，Employee类型的变量可以指向Employee对象或Manager对象，
+// 因为Manager是Employee的子类。但是，Manager类型的变量不能指向Employee对象，
+// 因为Employee不是Manager的子类。
+
+class Polymorphism{
+    void Polymorphism(){
+        Employee3 employee3 = new Manager3(); //legal //因为Manager3是Employee3的子类
+// Illegal attempt to assign Manager attribute
+//        employee3.department = "Sales"; //无法使用department属性，因为employee3是Employee3类型的,本身没有属性department
+// the variable is declared as a Employee type,
+// even though the Manager object has that attribute
+    }
+
+
+    public TaxRate findTaxRate(Employee3 e) {
+        return null;
+    }
+    // Meanwhile, elsewhere in the application class
+    Manager3 m = new Manager3();
+    TaxRate t = findTaxRate(m);//这里可以使用的原因是：Manager3是Employee3的子类，所以本身Manager3也是Employee3的一种，传给函数的参数是Employee3类型的，所以可以传Manager3类型的
+
+
+}
+//创建Employee和Manager，要求Manager继承Employee类
+//Employee类中有属性：name，salary，hireDay
+//Manager类中有属性：name，salary，hireDay，department
+class Employee3{
+    String name;
+    double salary;
+    String hireDay;
+}
+class Manager3 extends Employee3{
+    String department;
+}
+class TaxRate{
+    double taxRate;
+}
+
+//Homogenous Collections 同类集合，就像下面这些代码一样，只能保存相同的类的对象
+//MyDate[] dates = new MyDate[2];
+//dates[0] = new MyDate(22, 12, 1964);
+//dates[1] = new MyDate(22, 7, 1964); Northeastern University
+
+//Heterogeneous Collections 异类集合，就像下面这些代码一样，可以保存不同类的对象
+//Employee [] staff = new Employee[1024];
+//staff[0] = new Manager();
+//staff[1] = new Employee();
+//staff[2] = new Engineer();
+//原理应该和上面的多态一样，只是这里是数组，上面是变量
+
+//主要体现：方法的override
+//对多态的利用:上溯造型（Upcasting）
+//①典型的upcasting。
+//②进行upcasting的原因。
+//③upcasting的实例。
+
+
+//向上转型是指将子类类型的对象赋值给父类类型的变量，
+// 从而实现多态（polymorphism）。多态是指同一个变量或方法可以根据不同的对象类型而表现出不同的行为。
+// 向上转型的优点是可以提高代码的复用性和灵活性，使得父类类型的变量或方法可以接受任何子类类型的对象作为参数或返回值。
+// 向上转型的缺点是会丢失子类类型的特有功能，只能使用父类类型中定义的功能。
+
+//Upcastingtest.java
+class Upper{
+    public void f(){System.out.println("Upper.f()");}
+}
+class Down extends Upper{
+    public void f(){System.out.println("Down.f()");}
+}
+class Upcastingtest{
+    public static void Doit(Upper u){ u.f(); }
+    public static void main(String[] args) {
+        Down down=new Down();
+        Doit(down);
+    }
+}//Down.f()
+//上面的例子中，Doit方法的参数是Upper类型的，但是传入的是Down类型的，这就是向上转型
+
+class Upper2{
+    public void f(){System.out.println("Upper.f()");}
+}
+class Down2 extends Upper2{
+    public void f(){System.out.println("Down.f()");}
+}
+class Upcastingtest2{
+    public static void Doit(Down2 d){ d.f(); }
+    public static void main(String[] args) {
+        Down2 down2=new Down2();
+        Doit(down2);
+    }
+}//Down.f()
+//上面的例子中，Doit方法的参数是Down2类型的，传入的也是Down2类型的，这就是正常的调用
+
+class Upper3{
+    public void f(){System.out.println("Upper.f()");}
+}
+class Down3 extends Upper3{
+    public void f(){System.out.println("Down.f()");}
+}
+class Down13 extends Upper3{
+    public void f(){System.out.println("Down1.f()");}
+}
+class Down23 extends Upper3{
+    public void f(){System.out.println("Down2.f()");}
+}
+class Upcastingtest3{
+    public static void Doit(Down3 d){ d.f(); }
+    public static void main(String[] args) {
+        Down3 down3=new Down3();
+        Doit(down3);
+    }
+}//Down.f()
+//上面的例子中，Doit方法的参数是Down3类型的，传入的是Down3类型的，这就是正常的调用
+
+class Upper4{
+    public void f(){System.out.println("Upper.f()");}
+}
+class Down4 extends Upper4{
+    public void f(){System.out.println("Down.f()");}
+}
+class Down14 extends Upper4{
+    public void f(){System.out.println("Down1.f()");}
+}
+class Down24 extends Upper4{
+    public void f(){System.out.println("Down2.f()");}
+}
+class Upcastingtest4{
+    public static void Doit(Upper4 u){ u.f(); }
+    public static void main(String[] args) {
+        Down4 down4=new Down4();
+        Doit(down4);}
+
+
+
+
+}//Down.f()
+//这块应该老师还要额外再拿其他的例子来说明，这里的Down4是Upper4的子类，但是传入的是Down4类型的，这就是向上转型
+
+//public void doSomething(Employee e) {
+//        if (e instanceof Manager) {
+//// Process a Manager
+//        } else if (e instanceof Engineer) {
+//// Process an Engineer
+//        } else {
+//// Process any other type of Employee
+//        }
+//    }
+//这里的instanceof是用来判断一个对象是否是一个类的实例，或者是这个类的子类的实例
+//这里的e是Employee类型的，但是传入的是Manager类型的，所以e instanceof Manager是true
+
+//public void doSomething(Employee e) {
+//        if(e instanceof Manager){
+//            Manager m=(Manager)e;
+//            System.out.println("This is the manager
+//                    of"+m.getDepartment());
+//        }
+////rest of operation
+//    }
+
+//该方法接受一个Employee类型的参数e。该方法的功能是判断参数e是否是Manager类型的对象，如果是，就将e强制转换为Manager类型，并打印出该经理所管理的部门的名称。如果不是，就不执行任何操作。
 
 
 
